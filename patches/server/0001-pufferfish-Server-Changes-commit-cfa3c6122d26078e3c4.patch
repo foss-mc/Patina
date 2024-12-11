@@ -1,8 +1,8 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: foss-mc <69294560+foss-mc@users.noreply.github.com>
-Date: Thu, 17 Oct 2024 10:51:56 +1300
+Date: Wed, 11 Dec 2024 14:28:41 +1100
 Subject: [PATCH] pufferfish Server Changes commit
- 8abd47bc9140fbfa2f94bef0c18995ccbcabeb35
+ cfa3c6122d26078e3c4432b792599c48f7c1a637
 
 Pufferfish Utils
 
@@ -258,7 +258,7 @@ an end crystal.
 TPS catchup
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 648281575eb8d45a5c06549eb3d0f517c086fe64..a93f36df99b433d5824bf04447016028469507b7 100644
+index 8cbf448c6d3f14f6acd901dc9c0cd94787eb0b58..74c716d6b3cbc40122beee5521c20d33deca7d37 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -47,6 +47,14 @@ dependencies {
@@ -275,8 +275,8 @@ index 648281575eb8d45a5c06549eb3d0f517c086fe64..a93f36df99b433d5824bf04447016028
 +
      testImplementation("io.github.classgraph:classgraph:4.8.47") // Paper - mob goal test
      testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
-     testImplementation("org.hamcrest:hamcrest:2.2")
-@@ -71,6 +79,14 @@ paperweight {
+     testImplementation("org.junit.platform:junit-platform-suite-engine:1.10.0")
+@@ -72,6 +80,14 @@ paperweight {
      craftBukkitPackageVersion.set("v1_21_R1") // also needs to be updated in MappingEnvironment
  }
  
@@ -2186,7 +2186,7 @@ index f9abf63e12ea930275121b470e4e4906cff0fc12..2a8ffcdd262ea73844500846c6401cdd
  
              if (this.isRainingAt(blockposition)) {
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index befeaac4786760f6847a5945da2296a3e68dbb17..6c28390e33c07d4c65493019375b669ccfa5ae2d 100644
+index 064d52d4479727c6a32bf357be8da32d1760e7fc..8f2214008d76d00267152b5db0cf0fbdd3fbbfb7 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -1157,6 +1157,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
@@ -3263,7 +3263,7 @@ index e8e93538dfd71de86515d9405f728db1631e949a..3dff02fd97f001508e2f81192817bf1b
              // Paper start - try to shutdown on main
              server.safeShutdown(false, false);
 diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
-index bf2d18f74b0f0da7c3c30310c74224a1c0853564..1461daa08c5b671b8556f29f90400b7e98285a44 100644
+index c7efdd1483b309ed8121e2203216ab288daa3117..2327d60fcde05f614d2ef8c4cc94496e65d6d769 100644
 --- a/src/main/java/org/spigotmc/ActivationRange.java
 +++ b/src/main/java/org/spigotmc/ActivationRange.java
 @@ -38,6 +38,10 @@ import co.aikar.timings.MinecraftTimings;

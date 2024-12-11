@@ -199,7 +199,7 @@ index 5a8a33638ceb1d980ffc3e6dd86e7eb11dfd9375..1c059f4698cfe944ab21cb62f9f3ccb7
              Util.logAndPauseIfInIde("Detected setBlock in a far chunk [" + i + ", " + j + "], pos: " + String.valueOf(pos) + ", status: " + String.valueOf(this.generatingStep.targetStatus()) + (this.currentlyGenerating == null ? "" : ", currently generating: " + (String) this.currentlyGenerating.get()));
                  hasSetFarWarned = true;
 diff --git a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
-index 6998f32f8d79dbdb6b31ffaa126602fc4a428616..0f64f38c7eb9a8b0afdeec061e8492e72330be7a 100644
+index 7174f8c89a7cdcf40ff28f6636ecfb23b13ccdaa..79f1473775bf990c08b89f1d27ae00ac18f5f212 100644
 --- a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 @@ -79,6 +79,7 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
@@ -227,7 +227,7 @@ index 6998f32f8d79dbdb6b31ffaa126602fc4a428616..0f64f38c7eb9a8b0afdeec061e8492e7
          //PacketUtils.ensureRunningOnSameThread(packet, this, this.player.serverLevel()); // CraftBukkit // Paper - handle ServerboundKeepAlivePacket async
          if (this.keepAlivePending && packet.getId() == this.keepAliveChallenge) {
              int i = (int) (Util.getMillis() - this.keepAliveTime);
-@@ -258,6 +269,21 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
+@@ -254,6 +265,21 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
          long currentTime = Util.getMillis();
          long elapsedTime = currentTime - this.keepAliveTime;
  
@@ -262,7 +262,7 @@ index 532f09089b8d6798999cf3f83e852df7479e450e..43c63d203859eaa0999937e2f9254c22
              // Paper end
          }
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 5e2c4969e77c669acbb4a13c07033cb267c3d586..8e99f48a0b24b587b26784499ea1f135c148bc73 100644
+index b0e8fe11e7f5d1fd803fa34187c9fa77245ad79b..7820cb2ed3513baae9137c283525b431afa35e0c 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -1129,6 +1129,7 @@ public abstract class PlayerList {
@@ -373,10 +373,10 @@ index 3070cd2b588f5a69fd8c0d3551e16251680d8c27..c9a1c071780351b584ad8e071ddc26f9
      public ClientboundBlockEntityDataPacket getUpdatePacket() {
          return ClientboundBlockEntityDataPacket.create(this);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b7af2d4300facf41a025c8ca322bf6541949b3ab..5f5f513e538df378884cda2da13988d96bf24e63 100644
+index c7df339aeb62ee627edaf1bb4c8474b61e357ba6..4129f296ccf9cedeb67d2164895a1162c9412e42 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1070,6 +1070,7 @@ public final class CraftServer implements Server {
+@@ -1072,6 +1072,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -384,7 +384,7 @@ index b7af2d4300facf41a025c8ca322bf6541949b3ab..5f5f513e538df378884cda2da13988d9
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1085,6 +1086,7 @@ public final class CraftServer implements Server {
+@@ -1087,6 +1088,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -392,7 +392,7 @@ index b7af2d4300facf41a025c8ca322bf6541949b3ab..5f5f513e538df378884cda2da13988d9
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -1102,6 +1104,7 @@ public final class CraftServer implements Server {
+@@ -1104,6 +1106,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
          this.spark.registerCommandBeforePlugins(this); // Paper - spark
@@ -400,7 +400,7 @@ index b7af2d4300facf41a025c8ca322bf6541949b3ab..5f5f513e538df378884cda2da13988d9
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -2988,6 +2991,18 @@ public final class CraftServer implements Server {
+@@ -2990,6 +2993,18 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -419,7 +419,7 @@ index b7af2d4300facf41a025c8ca322bf6541949b3ab..5f5f513e538df378884cda2da13988d9
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -3215,4 +3230,13 @@ public final class CraftServer implements Server {
+@@ -3217,4 +3232,13 @@ public final class CraftServer implements Server {
          return this.potionBrewer;
      }
      // Paper end
@@ -434,7 +434,7 @@ index b7af2d4300facf41a025c8ca322bf6541949b3ab..5f5f513e538df378884cda2da13988d9
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index c1e88c31910e96ef07cece05046c0b55e708b52d..316c5e1460ccf3386c4c8623eabb7f087df8c4b9 100644
+index b3ba6bccdbb08af27916f0c611c60b2595b90164..7c3b663fc85617631ed7d9b00059c2d88c15436b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -176,6 +176,14 @@ public class Main {
@@ -462,7 +462,7 @@ index c1e88c31910e96ef07cece05046c0b55e708b52d..316c5e1460ccf3386c4c8623eabb7f08
  
                      Calendar deadline = Calendar.getInstance();
 diff --git a/src/main/java/org/bukkit/craftbukkit/legacy/CraftLegacy.java b/src/main/java/org/bukkit/craftbukkit/legacy/CraftLegacy.java
-index dc591702d1ad41209bb80e8d05f4ca11f20816f2..a63f090e75cf7d6561276c4297305d92cb5bbdb5 100644
+index fa599f9533fbc18608d8d1d00dddd7ac2ecc4e31..1fef28f7ba02a13669e783bc73cd236a32f4c995 100644
 --- a/src/main/java/org/bukkit/craftbukkit/legacy/CraftLegacy.java
 +++ b/src/main/java/org/bukkit/craftbukkit/legacy/CraftLegacy.java
 @@ -265,6 +265,7 @@ public final class CraftLegacy {
@@ -863,7 +863,7 @@ index 0000000000000000000000000000000000000000..afdf04f8b22ad0b7c0b41675e44687b4
 +    }
 +}
 diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
-index 1461daa08c5b671b8556f29f90400b7e98285a44..58d6ca5f503a56e4edbf5e9ece99c8b5d6161e73 100644
+index 2327d60fcde05f614d2ef8c4cc94496e65d6d769..2cdf53418f3c9c4732255d926b6153e08bc5eced 100644
 --- a/src/main/java/org/spigotmc/ActivationRange.java
 +++ b/src/main/java/org/spigotmc/ActivationRange.java
 @@ -402,6 +402,7 @@ public class ActivationRange
